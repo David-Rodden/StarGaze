@@ -1,0 +1,21 @@
+#map-container {
+    height: 300px;
+    margin: 0 auto;
+}
+#map-title{
+    width: 20%;
+    margin-left: 40%;
+    content:url("../images/StarGaze.png");
+    align-content: center;
+}
+#map{
+    width: 50%;
+    margin-left: 25%;
+    height: 300px;
+    display: inline-block;
+    background-color: darkblue;
+}
+body{
+    background-image: url("../images/gazing.jpg");
+    background-size: 150px;
+}
