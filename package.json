@@ -1,0 +1,14 @@
+{
+  "name": "stargaze",
+  "version": "1.0.0",
+  "private": true,
+  "description": "StarGaze dark-sky explorer bundled with Bun.",
+  "scripts": {
+    "build": "bun run scripts/build.ts",
+    "dev": "bun run build && bun run server.ts",
+    "start": "bun run server.ts"
+  },
+  "engines": {
+    "bun": ">=1.2.0"
+  }
+}
