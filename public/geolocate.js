@@ -1,7 +1,6 @@
 const CONFIG = {
     defaultView: { center: [39.5, -98.35], zoom: 4 },
     userZoom: 10,
-    locationCircleRadius: 300,
     lightDataUrl: "../dataset/light/lightdata.txt",
     tileLayer: {
         url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
@@ -14,6 +13,12 @@ const CONFIG = {
     pointStyle: {
         color: "#e9edff",
         stroke: false
+    },
+    locationStyle: {
+        radius: 300,
+        color: "#95c4ff",
+        stroke: false,
+        fillOpacity: 0.3
     }
 };
 
@@ -64,12 +69,7 @@ const showUserLocation = (lat, lon) => {
         .addTo(appState.userLayer)
         .openPopup();
 
-    L.circle([lat, lon], {
-        radius: CONFIG.locationCircleRadius,
-        color: "#95c4ff",
-        stroke: false,
-        fillOpacity: 0.3
-    }).addTo(appState.userLayer);
+    L.circle([lat, lon], CONFIG.locationStyle).addTo(appState.userLayer);
 };
 
 const getCurrentPosition = () => new Promise((resolve, reject) => {
