@@ -33,8 +33,8 @@ const ui = {
     locateBtn: document.getElementById("locate-btn")
 };
 
-const setStatus = (message, { append = false } = {}) => {
-    ui.status.textContent = append ? `${ui.status.textContent} ${message}`.trim() : message;
+const setStatus = (message) => {
+    ui.status.textContent = message;
 };
 
 const scoreToStyle = (score) => {
@@ -86,14 +86,16 @@ const getCurrentPosition = () => new Promise((resolve, reject) => {
 
 const parseLightData = (rawData) => rawData
     .split(/\r?\n/)
-    .reduce((acc, line) => {
-        const [lat, lon, score] = line.trim().split("\t");
-        const point = [lat, lon, score].map(Number.parseFloat);
-        if (point.length === 3 && point.every(Number.isFinite)) {
-            acc.push({ lat: point[0], lon: point[1], score: point[2] });
-        }
-        return acc;
-    }, []);
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => line.split("\t"))
+    .filter((parts) => parts.length === 3)
+    .map(([lat, lon, score]) => ({
+        lat: Number.parseFloat(lat),
+        lon: Number.parseFloat(lon),
+        score: Number.parseFloat(score)
+    }))
+    .filter(({ lat, lon, score }) => ![lat, lon, score].some(Number.isNaN));
 
 const renderLightData = (dataPoints) => {
     appState.pollutionLayer.clearLayers();
@@ -143,7 +145,7 @@ const bootstrap = async () => {
         setStatus("Could not load light-pollution data.");
     }
 
-    await locateUser().catch(() => {});
+    await locateUser();
 };
 
 bootstrap();
